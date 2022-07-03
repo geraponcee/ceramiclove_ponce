@@ -1,6 +1,9 @@
 import React from "react";
 import { BsBoxArrowInRight } from "react-icons/bs";
 import brand from "../../media/brand.png";
+import CartWidget from "./CartWidget";
+
+import "../../css/navbar.css"
 
 const NavBar = () => {
     return (
@@ -24,6 +27,7 @@ const NavBar = () => {
                             <a className="nav-link" href="#">Sobre nosotros</a>
                         </li>
                     </ul>
+                    <a id="iconcart" className="btn btn-link position-relative"><CartWidget /></a>
                     <button className="btn btn-dark"><BsBoxArrowInRight /> Login</button>
                 </div>
             </div>
