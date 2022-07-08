@@ -1,9 +1,8 @@
 import React from "react";
 import { BsBoxArrowInRight } from "react-icons/bs";
-import brand from "../../media/brand.png";
+import brand from "../media/brand.png";
 import CartWidget from "./CartWidget";
-
-import "../../css/navbar.css"
+import "../css/navbar.css"
 
 const NavBar = () => {
     return (
