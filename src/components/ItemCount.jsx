@@ -13,7 +13,7 @@ const ItemCount = ({ stock = 0, initial = 0, onAdd }) => {
     };
 
     return ( 
-        <div className="card col-md-4 col-sm-12">
+        <div className="card col-md-4 col-sm-12 shadow-sm">
             <div className="card-body">
                 <h5 className="card-title">Producto X</h5>
                 <div className="input-group mb-2">
