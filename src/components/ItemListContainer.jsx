@@ -28,7 +28,7 @@ const ItemListContainer = ({ greeting }) => {
             });
         
             promiseItems
-            .then((request) => {setItems(itemsData);})
+            .then((response) => {setItems(itemsData);})
             .catch((error) => {console.log(error);})
         
         },
