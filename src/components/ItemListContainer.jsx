@@ -1,50 +1,38 @@
 import { useState, useEffect } from "react";
-import ItemCount from "./ItemCount";
 import ItemList from "./ItemList";
 import itemsData from "../data/itemsData";
+import { useParams } from "react-router-dom";
+import Spinner from "react-bootstrap/esm/Spinner";
 
 const ItemListContainer = ({ greeting }) => {
 
+    const { id } = useParams();
     const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const promiseItems = new Promise((resolve, reject) => {
+        setTimeout(
+            () => {resolve(itemsData);},2000
+        )
+    });
 
-    const  onAddItem = (count) => {
-        if (count > 1){
-            alert(`${count} productos fueron añadidos al carrito!`);
-        } else {
-            alert(`${count} producto fue añadido al carrito!`);
-        }
-    };
-
-    useEffect(
-        () => {
-
-            let promiseItems = new Promise((resolve, reject) => {
-                setTimeout(
-                    () => {
-                        resolve(itemsData);
-                    },
-                    2000
-                )
-            });
-        
+    useEffect(() => {
+            setLoading(true);
             promiseItems
-            .then((response) => {setItems(itemsData);})
+            .then((response) => {
+                if(id) {
+                    setItems(response.filter((product) => product.category.id == id));
+                } else {
+                    setItems(response);
+                }
+            setLoading(false);
+            })
             .catch((error) => {console.log(error);})
-        
-        },
-        []
-    );
+        }, [id]);
 
-    
+    if (loading) return <Spinner />;
 
     return (  
         <div className="container">
-            <h2>{ greeting }</h2>
-            <div className="row">
-                <ItemCount stock={5} initial={1} onAdd={onAddItem} />
-                <ItemCount stock={3} initial={1} onAdd={onAddItem} />
-                <ItemCount stock={10} initial={1} onAdd={onAddItem} />
-            </div>
             <div>
                 <ItemList items={items} />
             </div>

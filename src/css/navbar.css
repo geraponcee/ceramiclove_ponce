@@ -6,3 +6,7 @@
     font-size: 30px;
     color: #1C1F23;
 }
+
+ul li a {
+    text-decoration: none;
+}
