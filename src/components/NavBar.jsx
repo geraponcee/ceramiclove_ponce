@@ -30,7 +30,7 @@ const NavBar = () => {
                             </ul>
                         </li>
                     </ul>
-                    <a id="iconcart" className="btn btn-link position-relative"><CartWidget /></a>
+                    <Link to="/cart/"><a id="iconcart" className="btn btn-link position-relative"><CartWidget /></a></Link>
                     <button className="btn btn-dark"><BsBoxArrowInRight /> Login</button>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import NavBar from "./components/NavBar";
 import ItemListContainer from "./components/ItemListContainer";
 import ItemDetailContainer from "./components/ItemDetailContainer";
+import Cart from "./components/Cart";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
               <div className="text-center"><h1>ERROR 404 NOT FOUND</h1></div>
             }
         />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </BrowserRouter>
   );

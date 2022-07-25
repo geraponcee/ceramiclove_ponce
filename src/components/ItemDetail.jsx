@@ -1,13 +1,12 @@
 import ItemCount from "./ItemCount";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const ItemDetail = ({ item }) => {
-
+    const [count, setCount] = useState(0);
     const  onAddItem = (count) => {
-        if (count > 1){
-            alert(`${count} productos fueron añadidos al carrito!`);
-        } else {
-            alert(`${count} producto fue añadido al carrito!`);
-        }};
+        setCount(count);    
+    };
     
     return ( 
         <div className="card container col" style={{ width: "50rem" }}>
@@ -35,7 +34,16 @@ const ItemDetail = ({ item }) => {
                         </p>
                     </p>
                     <div className="col">
-                        <ItemCount stock={item.stock} initial={1} onAdd={onAddItem} />
+                        {count == 0 ? 
+                            (
+                                <ItemCount stock={item.stock} initial={1} onAdd={onAddItem} />
+                            ) : (
+                                <div>
+                                    <h3>{count} productos fueron agregados</h3>
+                                    <Link to="/cart/"><button className="btn btn-dark w-100">Terminar mi compra</button></Link>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
