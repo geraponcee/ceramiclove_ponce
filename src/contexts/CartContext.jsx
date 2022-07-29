@@ -22,10 +22,11 @@ const CartProvider = (props) => {
             } 
         );
         setCartItems(newArray);
-        setCountItems(0);
+        let newCount = 0;
         newArray.forEach((item) => {
-            setCountItems(countItems + item.count);
+            newCount += item.count;
         });
+        setCountItems(newCount);
     }
 
     const clear = () => {
