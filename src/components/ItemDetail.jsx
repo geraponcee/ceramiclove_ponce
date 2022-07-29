@@ -1,11 +1,27 @@
 import ItemCount from "./ItemCount";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { CartContext } from "../contexts/CartContext";
 
 const ItemDetail = ({ item }) => {
+
+    const context = useContext(CartContext);
     const [count, setCount] = useState(0);
+    
     const  onAddItem = (count) => {
-        setCount(count);    
+        if(!context.isInCart(item.id)){
+            setCount(count);
+            item = {
+                'id': item.id,
+                'count': count,
+                'title': item.title,
+                'price': item.price,
+                'subtotal': parseInt(count) * parseInt(item.price)
+            }
+            context.addItem(item, count);
+        }else{
+            alert('Ya existe el item');
+        }
     };
     
     return ( 
