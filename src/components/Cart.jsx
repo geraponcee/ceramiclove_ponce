@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../contexts/CartContext";
+import { Link } from "react-router-dom";
 import "../css/cart.css"
 
 const Cart = () => {
@@ -37,7 +38,10 @@ const Cart = () => {
                                 <button className="btn btn-dark" onClick={() => context.clear()}>Limpiar carrito</button>
                             </>
                         ) : (
-                            <h1>Carrito vacío</h1>
+                            <>
+                                <h1>Carrito vacío</h1>
+                                <Link to="/"><button className="btn btn-dark">Comprar algo</button></Link>
+                            </>
                         )
                     }
                 </li>

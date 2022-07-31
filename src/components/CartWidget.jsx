@@ -9,10 +9,15 @@ const CartWidget = () => {
 
     return (
         <div>  
-            <AiOutlineShoppingCart />
-            <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-secondary">
-                <span>{`${context.countItems}`}</span>
-            </span>
+            {context.countItems > 0 ?
+                (   <>
+                        <AiOutlineShoppingCart />
+                        <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-secondary">
+                            <span>{`${context.countItems}`}</span>
+                        </span>
+                    </>
+                ) : false
+            }
         </div>
     );
 }
