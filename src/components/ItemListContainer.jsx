@@ -1,32 +1,44 @@
 import { useState, useEffect } from "react";
 import ItemList from "./ItemList";
-import itemsData from "../data/itemsData";
 import { useParams } from "react-router-dom";
 import Spinner from "react-bootstrap/esm/Spinner";
+import { getFirestore, collection, getDocs, query, where, limit } from "firebase/firestore";
 
 const ItemListContainer = ({ greeting }) => {
 
     const { id } = useParams();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
-    const promiseItems = new Promise((resolve, reject) => {
-        setTimeout(
-            () => {resolve(itemsData);},2000
-        )
-    });
 
     useEffect(() => {
             setLoading(true);
-            promiseItems
-            .then((response) => {
-                if(id) {
-                    setItems(response.filter((product) => product.category.id == id));
-                } else {
-                    setItems(response);
-                }
-            setLoading(false);
-            })
-            .catch((error) => {console.log(error);})
+            const db = getFirestore();
+            const itemsCollection = collection(db, "items");
+            if(id){
+                const itemsFiltered = query(
+                    itemsCollection, 
+                    where("category_id", "==", parseInt(id))
+                );
+                getDocs(itemsFiltered)
+                .then((snapshot) => {
+                    const data = snapshot.docs.map((doc) => (
+                        {id: doc.id, ...doc.data()}
+                    ));
+                    setItems(data);
+                    setLoading(false);
+                })
+                .catch((error) => {console.log(error);});
+            }else{
+                getDocs(itemsCollection)
+                .then((snapshot) => {
+                    const data = snapshot.docs.map((doc) => (
+                        {id: doc.id, ...doc.data()}
+                    ));
+                    setItems(data);
+                    setLoading(false);
+                })
+                .catch((error) => {console.log(error);});
+            }
         }, [id]);
 
     if (loading) return <Spinner />;
