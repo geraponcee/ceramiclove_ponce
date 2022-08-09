@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
 
 const CartWidget = () => {
+    
     const context = useContext(CartContext);
 
     return (

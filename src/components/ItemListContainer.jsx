@@ -41,12 +41,10 @@ const ItemListContainer = ({ greeting }) => {
             }
         }, [id]);
 
-    if (loading) return <Spinner />;
-
     return (  
         <div className="container">
-            <div>
-                <ItemList items={items} />
+            <div style={{justifyContent: 'center', display: 'flex'}}>
+                { loading ? <Spinner animation="border" role="status"/> : <ItemList items={items} />}
             </div>
         </div>
     );

@@ -3,17 +3,29 @@ import { useState } from "react";
 const ItemCount = ({ stock = 0, initial = 0, onAdd }) => {
 
     const [count, setCount] = useState(initial);
+    const [stockVariant, setStockVariant] = useState(stock - 1);
 
     const actionClick = (operation) => {
         if (operation === "+"){
-            return (count < stock) ? setCount(count + 1) : count;
+            if(count < stock){
+                setCount(count + 1);
+                setStockVariant(stockVariant - 1);
+            }
+            return count;
         } else {
-            return (count > 0) ? setCount(count - 1) : count;
+            if(count > 0){
+                setCount(count - 1)
+                setStockVariant(stockVariant + 1);
+            }
+            return count;
         }
     };
 
     return ( 
         <div className="row">
+            <div className="col-12 text-center">
+                <h5>{`Disponibles ${stockVariant}`}</h5>
+            </div>
             <div className="input-group mb-2">
                 <button className="btn btn-dark col-2 input-group-text" onClick={() => actionClick("-")}>-</button>
                 <div className="form-control text-center col-8">{ count }</div>

@@ -2,6 +2,15 @@ import ItemCount from "./ItemCount";
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
+import {
+    MDBCard,
+    MDBCardImage,
+    MDBCardBody,
+    MDBCardTitle,
+    MDBCardText,
+    MDBListGroup,
+    MDBListGroupItem
+  } from 'mdb-react-ui-kit';
 
 const ItemDetail = ({item}) => {
 
@@ -10,61 +19,71 @@ const ItemDetail = ({item}) => {
     
     const  onAddItem = (count) => {
         if(!context.isInCart(item.id)){
-            setCount(count);
-            item = {
-                'id': item.id,
-                'count': count,
-                'title': item.title,
-                'price': item.price,
-                'subtotal': parseInt(count) * parseInt(item.price)
+            if(context.idOrder){
+                context.setIdOrder(null);
+                context.clear();
             }
-            context.addItem(item, count);
+            putInCart(count);
         }else{
-            alert('Ya existe el item');
+            if(context.idOrder){
+                context.setIdOrder(null);
+                context.clear();
+                putInCart(count);
+            }else{
+                alert('Ya existe el item');
+            }
         }
     };
+
+    const putInCart = (count) => {
+        setCount(count);
+        item = {
+            'id': item.id,
+            'count': count,
+            'title': item.title,
+            'price': item.price,
+            'url': item.url,
+            'subtotal': parseInt(count) * parseInt(item.price)
+        }
+        context.addItem(item, count);
+    }
     
     return ( 
-        <div className="card container col" style={{ width: "50rem" }}>
-            <div className="col text-center">
-                <h2>{item.title}</h2>
-            </div>
-            <div className="row mb-2">
-                <div className="col-md-5">
-                    <img src={item.url} className="card-img-top"></img>
-                </div>
-                <div className="col-md-7">
-                    <p>
-                        <h4>Construcción:</h4>
-                        <p>{item.description}</p>
-                    </p>
-                    <h4>Especificaciones:</h4>
-                    <p>
-                        <p>Altura: {item.heigth} cm</p>
-                        <p>Anchura: {item.width} cm</p>
-                        <p>Diámetro: {item.diameter} cm</p>
-                        <p>
-                            <h5 style={{textDecoration: "line-through", "color": "gray"}}>${(item.price + (item.discount/100 * item.price)).toFixed(0)}</h5>
-                            <h2>Precio ${item.price}</h2>
-                            <h4 style={{"color": "green"}}>{item.discount}% OFF</h4>
-                        </p>
-                    </p>
-                    <div className="col">
-                        {count == 0 ? 
-                            (
-                                <ItemCount stock={item.stock} initial={1} onAdd={onAddItem} />
-                            ) : (
-                                <div>
-                                    <h3>{count} productos fueron agregados</h3>
-                                    <Link to="/cart/"><button className="btn btn-dark w-100">Terminar mi compra</button></Link>
-                                </div>
-                            )
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <MDBCard className="shadow-sm">
+            <MDBCardImage position='top' src={item.url} />
+            <MDBCardBody>
+                <MDBCardTitle>{item.title}</MDBCardTitle>
+                <MDBCardText>
+                    {item.description}
+                </MDBCardText>
+            </MDBCardBody>
+            <MDBListGroup flush>
+                <MDBListGroupItem style={{display: 'grid'}}>
+                    <MDBCardTitle>Especificaciones:</MDBCardTitle>
+                    <span>Altura: {item.heigth} cm</span>
+                    <span>Anchura: {item.width} cm</span>
+                    <span>Diámetro: {item.diameter} cm</span>
+                    <h4>
+                        <span style={{textDecoration: "line-through", "color": "gray", marginRight: "10px"}}>
+                            Precio ${(item.price + (item.discount/100 * item.price)).toFixed(0)}
+                        </span>
+                        <span style={{"color": "green"}}>
+                            {item.discount}% OFF
+                        </span>
+                    </h4>
+                    <h2 className="text-center">Precio final por unidad ${item.price}</h2>
+                </MDBListGroupItem>
+                <MDBListGroupItem>
+                    {count == 0 ? 
+                        (item.stock < 1 ? <h3 className="text-center" style={{color: "red"}}>¡Sin stock!</h3> : <ItemCount stock={item.stock} initial={1} onAdd={onAddItem} />):
+                        (<div>
+                            <h3 className="text-center">{count > 1 ? `${count} productos agregados` : `${count} producto agregado`}</h3>
+                            <Link to="/cart/"><button className="btn btn-dark w-100">Terminar compra</button></Link>
+                        </div>)
+                    }
+                </MDBListGroupItem>
+            </MDBListGroup>
+        </MDBCard>
     );
 }
  
