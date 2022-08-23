@@ -12,6 +12,10 @@ const FormData = ({handleSubmit}) => {
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email" required/>
             </Form.Group>
+            <Form.Group className="mb-3" controlId="email_check">
+                <Form.Label>Repita Email</Form.Label>
+                <Form.Control type="email" required/>
+            </Form.Group>
             <Form.Group className="mb-3" controlId="phone">
                 <Form.Label>Teléfono</Form.Label>
                 <Form.Control type="number" required/>

@@ -5,20 +5,15 @@ import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
 
 const CartWidget = () => {
-    
+
     const context = useContext(CartContext);
 
     return (
         <div>  
-            {context.countItems > 0 ?
-                (   <>
-                        <AiOutlineShoppingCart />
-                        <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-secondary">
-                            <span>{`${context.countItems}`}</span>
-                        </span>
-                    </>
-                ) : false
-            }
+            <AiOutlineShoppingCart />
+            <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-secondary">
+                <span>{`${context.countItems}`}</span>
+            </span>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import ItemCount from "./ItemCount";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import {
@@ -65,13 +65,13 @@ const ItemDetail = ({item}) => {
                     <span>Diámetro: {item.diameter} cm</span>
                     <h4>
                         <span style={{textDecoration: "line-through", "color": "gray", marginRight: "10px"}}>
-                            Precio ${(item.price + (item.discount/100 * item.price)).toFixed(0)}
+                            Precio ${item.price}
                         </span>
                         <span style={{"color": "green"}}>
                             {item.discount}% OFF
                         </span>
                     </h4>
-                    <h2 className="text-center">Precio final por unidad ${item.price}</h2>
+                    <h2 className="text-center">Precio final por unidad ${(item.price - (item.discount/100 * item.price)).toFixed(0)}</h2>
                 </MDBListGroupItem>
                 <MDBListGroupItem>
                     {count == 0 ? 
